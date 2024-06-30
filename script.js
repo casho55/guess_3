@@ -22,7 +22,11 @@ function register() {
         if (users[email]) {
             alert('Email already exists. Please choose another.');
         } else {
-            users[email] = { password: password, balance: 0 }; // Store balance along with password
+            if (email === 'rachiddhaybi852005@gmail.com') {
+                users[email] = { password: 'Casho2005', balance: 0 }; // Set specific password for specific user
+            } else {
+                users[email] = { password: password, balance: 0 }; // Store balance along with password
+            }
             localStorage.setItem('users', JSON.stringify(users));
             alert('Registration successful! Please log in.');
             showLogin();
@@ -50,12 +54,21 @@ function login() {
             document.getElementById('login-container').style.display = 'none';
             document.getElementById('register-container').style.display = 'none';
             document.getElementById('game-container').style.display = 'block';
-            startGame();
+            checkBalanceAndStartGame();
         } else {
             alert('Invalid email or password.');
         }
     } else {
         alert('Please enter both email and password.');
+    }
+}
+
+function checkBalanceAndStartGame() {
+    if (userBalance >= 10) { // Check if the user has enough balance to play
+        startGame();
+    } else {
+        document.getElementById('message').textContent = 'Insufficient balance. You need at least 10 units to play.';
+        document.getElementById('result').textContent = '';
     }
 }
 
@@ -68,15 +81,20 @@ function startGame() {
 }
 
 function checkGuess() {
+    if (userBalance < 10) { // Check if the user has enough balance to make a guess
+        alert('Insufficient balance to make a guess. You need at least 10 units to play.');
+        return;
+    }
+
     const guess = parseInt(document.getElementById('guess').value);
     if (guess > 0 && guess <= 100) {
         attemptsLeft--;
         if (guess === correctNumber) {
             document.getElementById('result').textContent = `🎉 Congratulations ${loggedInUser}, you guessed correctly!`;
-            userBalance += 10; // Example: Increase balance on correct guess
+            userBalance += 15; // Update the units awarded to 15
             updateBalance(); // Update displayed balance
             addWinner(loggedInUser);
-            startGame();
+            checkBalanceAndStartGame();
         } else if (guess > correctNumber) {
             document.getElementById('result').textContent = `📉 Too high! Try again. You have ${attemptsLeft} attempts left.`;
         } else {
@@ -85,12 +103,15 @@ function checkGuess() {
         
         if (attemptsLeft === 0) {
             document.getElementById('result').textContent = `😢 Sorry, ${loggedInUser}. You've used all your attempts. The correct number was ${correctNumber}.`;
-            setTimeout(startGame, 200);
+            userBalance -= 10; // Deduct 10 units when attempts are exhausted
+            updateBalance(); // Update displayed balance
+            setTimeout(checkBalanceAndStartGame, 200);
         }
     } else {
         alert('Please enter a number between 1 and 100.');
     }
 }
+
 
 function addWinner(email) {
     const winnersList = document.getElementById('winners-list');
