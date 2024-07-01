@@ -24,6 +24,16 @@
         <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
     </div>
 
+    <div id="amount-container" style="display: none;">
+        <h2>Select Amount to Start</h2>
+        <button onclick="startGameWithAmount(10)">10 Units</button>
+        <button onclick="startGameWithAmount(20)">20 Units</button>
+        <button onclick="startGameWithAmount(30)">30 Units</button>
+        <button onclick="startGameWithAmount(40)">40 Units</button>
+        <button onclick="startGameWithAmount(50)">50 Units</button>
+        <button onclick="startGameWithAmount(100)">100 Units</button>
+    </div>
+
     <div id="game-container" style="display: none;">
         <h1>Guess the Number 🎲</h1>
         <p id="message">Guess a number between 1 and 100</p>
