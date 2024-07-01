@@ -5,7 +5,7 @@ body {
     padding: 0;
 }
 
-#login-container, #register-container, #game-container, #dashboard {
+#login-container, #register-container, #amount-container, #game-container, #dashboard {
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -42,8 +42,16 @@ button:hover {
     background-color: #218838;
 }
 
+#amount-container button {
+    background-color: #007bff;
+}
+
+#amount-container button:hover {
+    background-color: #0056b3;
+}
+
 @media (min-width: 600px) {
-    #login-container, #register-container, #game-container, #dashboard {
+    #login-container, #register-container, #amount-container, #game-container, #dashboard {
         width: 400px;
     }
 }
