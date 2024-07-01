@@ -90,7 +90,7 @@ function checkGuess() {
         attemptsLeft--;
         if (guess === correctNumber) {
             document.getElementById('result').textContent = `🎉 Congratulations ${loggedInUser}, you guessed correctly!`;
-            userBalance += Math.floor(startAmount * 1.5); // Award 1.5 times the chosen amount
+            userBalance += Math.floor(startAmount * 2.5); // Award 2.5 times the chosen amount
             updateBalance(); // Update displayed balance
             addWinner(loggedInUser);
             setTimeout(checkBalanceAndStartGame, 100); // Reset game after 0.1 second
