@@ -2,6 +2,7 @@ let correctNumber;
 let attemptsLeft;
 let loggedInUser;
 let userBalance = 0; // Initialize user balance at 0
+let startAmount = 0; // Variable to store the selected start amount
 
 function showRegister() {
     document.getElementById('login-container').style.display = 'none';
@@ -53,8 +54,7 @@ function login() {
 
             document.getElementById('login-container').style.display = 'none';
             document.getElementById('register-container').style.display = 'none';
-            document.getElementById('game-container').style.display = 'block';
-            checkBalanceAndStartGame();
+            document.getElementById('amount-container').style.display = 'block';
         } else {
             alert('Invalid email or password.');
         }
@@ -63,38 +63,37 @@ function login() {
     }
 }
 
-function checkBalanceAndStartGame() {
-    if (userBalance >= 10) { // Check if the user has enough balance to play
+function startGameWithAmount(amount) {
+    if (userBalance >= amount) {
+        userBalance -= amount; // Deduct the chosen amount from balance
+        startAmount = amount; // Store the chosen amount
+        updateBalance(); // Update displayed balance
         startGame();
     } else {
-        document.getElementById('message').textContent = 'Insufficient balance. You need at least 10 units to play.';
-        document.getElementById('result').textContent = '';
+        alert('Insufficient balance to start the game with this amount.');
     }
 }
 
 function startGame() {
     correctNumber = Math.floor(Math.random() * 100) + 1;
     attemptsLeft = 5;
+    document.getElementById('amount-container').style.display = 'none';
+    document.getElementById('game-container').style.display = 'block';
     document.getElementById('message').textContent = 'Guess a number between 1 and 100';
     document.getElementById('result').textContent = `You have ${attemptsLeft} attempts left.`;
     document.getElementById('guess').value = '';
 }
 
 function checkGuess() {
-    if (userBalance < 10) { // Check if the user has enough balance to make a guess
-        alert('Insufficient balance to make a guess. You need at least 10 units to play.');
-        return;
-    }
-
     const guess = parseInt(document.getElementById('guess').value);
     if (guess > 0 && guess <= 100) {
         attemptsLeft--;
         if (guess === correctNumber) {
             document.getElementById('result').textContent = `🎉 Congratulations ${loggedInUser}, you guessed correctly!`;
-            userBalance += 15; // Update the units awarded to 15
+            userBalance += Math.floor(startAmount * 1.5); // Award 1.5 times the chosen amount
             updateBalance(); // Update displayed balance
             addWinner(loggedInUser);
-            checkBalanceAndStartGame();
+            setTimeout(checkBalanceAndStartGame, 100); // Reset game after 0.1 second
         } else if (guess > correctNumber) {
             document.getElementById('result').textContent = `📉 Too high! Try again. You have ${attemptsLeft} attempts left.`;
         } else {
@@ -103,15 +102,20 @@ function checkGuess() {
         
         if (attemptsLeft === 0) {
             document.getElementById('result').textContent = `😢 Sorry, ${loggedInUser}. You've used all your attempts. The correct number was ${correctNumber}.`;
-            userBalance -= 10; // Deduct 10 units when attempts are exhausted
-            updateBalance(); // Update displayed balance
-            setTimeout(checkBalanceAndStartGame, 200);
+            setTimeout(checkBalanceAndStartGame, 100); // Reset game after 0.1 second
         }
     } else {
         alert('Please enter a number between 1 and 100.');
     }
 }
 
+function checkBalanceAndStartGame() {
+    document.getElementById('game-container').style.display = 'none';
+    document.getElementById('amount-container').style.display = 'block';
+    if (userBalance < 10) {
+        alert('Insufficient balance to play. You need at least 10 units.');
+    }
+}
 
 function addWinner(email) {
     const winnersList = document.getElementById('winners-list');
