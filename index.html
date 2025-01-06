@@ -3,52 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guess the Number Game</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Casho Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fffbea;
+            color: #333;
+        }
+
+        header {
+            background-color: #ffd700;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ffd700;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h2 {
+            text-align: center;
+            color: #ffd700;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ffd700;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #ffd700;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #e6b800;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 90%;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            border: 1px solid #ffd700;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: #ffd700;
+            color: white;
+            font-weight: bold;
+        }
+
+        td {
+            background-color: #fffbea;
+        }
+
+        .delete-button {
+            padding: 5px 10px;
+            background-color: #e6b800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-button:hover {
+            background-color: #cc9900;
+        }
+
+        .photo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .photo img:hover {
+            transform: scale(1.2);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #ffd700;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <div id="login-container">
-        <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
-        <input type="text" id="login-email" placeholder="Enter your email">
-        <input type="password" id="login-password" placeholder="Enter your password">
-        <button onclick="login()">Login <i class="fas fa-arrow-right"></i></button>
-        <p>Don't have an account? <a href="#" onclick="showRegister()">Register here</a></p>
-    </div>
 
-    <div id="register-container" style="display: none;">
-        <h2><i class="fas fa-user-plus"></i> Register</h2>
-        <input type="text" id="register-email" placeholder="Choose an email">
-        <input type="password" id="register-password" placeholder="Choose a password">
-        <button onclick="register()">Register <i class="fas fa-check"></i></button>
-        <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
-    </div>
+<header>Casho Store</header>
 
-    <div id="amount-container" style="display: none;">
-        <h2>Select Amount to Start</h2>
-        <button onclick="startGameWithAmount(10)">10 Units</button>
-        <button onclick="startGameWithAmount(20)">20 Units</button>
-        <button onclick="startGameWithAmount(30)">30 Units</button>
-        <button onclick="startGameWithAmount(40)">40 Units</button>
-        <button onclick="startGameWithAmount(50)">50 Units</button>
-        <button onclick="startGameWithAmount(100)">100 Units</button>
-    </div>
+<div id="authSection" class="form-container">
+    <h2>Admin Login</h2>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="loginUsername">Username:</label>
+            <input type="text" id="loginUsername" placeholder="Enter username" required>
+        </div>
+        <div class="form-group">
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" placeholder="Enter password" required>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+</div>
 
-    <div id="game-container" style="display: none;">
-        <h1>Guess the Number 🎲</h1>
-        <p id="message">Guess a number between 1 and 100</p>
-        <input type="number" id="guess" min="1" max="100">
-        <button onclick="checkGuess()">Guess <i class="fas fa-bullseye"></i></button>
-        <p id="result"></p>
+<div id="appSection" class="hidden">
+    <div class="form-container">
+        <h2>Add Product</h2>
+        <form id="photoForm">
+            <div class="form-group">
+                <label for="photo">Photo:</label>
+                <input type="file" id="photo" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <input type="text" id="description" placeholder="Enter product description" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <input type="number" id="price" placeholder="Enter product price" step="0.01" required>
+            </div>
+            <button type="submit">Add Product</button>
+        </form>
     </div>
+</div>
 
-    <div id="dashboard">
-        <h2><i class="fas fa-trophy"></i> Winners</h2>
-        <ul id="winners-list"></ul>
-        <button onclick="showBalance()">Check Balance</button>
-        <button onclick="transferBalance()">Transfer Balance</button>
-    </div>
+<h2 style="text-align: center; margin-top: 20px; color: #ffd700;">Product List</h2>
+<table id="publicTable">
+    <thead>
+        <tr>
+            <th>Photo</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th class="hidden" id="actionsHeader">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Public product entries will be dynamically added here -->
+    </tbody>
+</table>
 
-    <script src="script.js"></script>
+<footer>© 2025 Casho Store</footer>
+
+<script>
+    const VALID_USERNAME = "casho";
+    const VALID_PASSWORD = "casho2005";
+    const loginForm = document.getElementById("loginForm");
+    const photoForm = document.getElementById("photoForm");
+    const authSection = document.getElementById("authSection");
+    const appSection = document.getElementById("appSection");
+    const publicTable = document.getElementById("publicTable");
+    const publicTableBody = publicTable.querySelector("tbody");
+    const actionsHeader = document.getElementById("actionsHeader");
+
+    let isAdmin = false;
+    let products = JSON.parse(localStorage.getItem("products") || "[]");
+
+    // Login Functionality
+    loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const username = document.getElementById("loginUsername").value;
+        const password = document.getElementById("loginPassword").value;
+
+        if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+            isAdmin = true;
+            authSection.classList.add("hidden");
+            appSection.classList.remove("hidden");
+            actionsHeader.classList.remove("hidden");
+            loadProducts();
+        } else {
+            alert("Invalid credentials!");
+        }
+    });
+
+    // Convert File to Base64
+    function toBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Add Product
+    photoForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const photoInput = document.getElementById("photo");
+        const description = document.getElementById("description").value;
+        const price = document.getElementById("price").value;
+
+        if (photoInput.files.length > 0) {
+            const photoBase64 = await toBase64(photoInput.files[0]);
+            const product = { photo: photoBase64, description, price };
+            products.push(product);
+            localStorage.setItem("products", JSON.stringify(products));
+            loadProducts();
+            photoForm.reset();
+        }
+    });
+
+    // Load Products
+    function loadProducts() {
+        publicTableBody.innerHTML = "";
+        products.forEach((product, index) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td class="photo"><a href="${product.photo}" target="_blank"><img src="${product.photo}" alt="Product"></a></td>
+                <td>${product.description}</td>
+                <td>$${parseFloat(product.price).toFixed(2)}</td>
+                ${isAdmin ? `<td><button class="delete-button" data-index="${index}">Delete</button></td>` : ""}
+            `;
+            publicTableBody.appendChild(row);
+        });
+
+        if (isAdmin) {
+            document.querySelectorAll(".delete-button").forEach((button) => {
+                button.addEventListener("click", (e) => {
+                    const index = e.target.getAttribute("data-index");
+                    products.splice(index, 1);
+                    localStorage.setItem("products", JSON.stringify(products));
+                    loadProducts();
+                });
+            });
+        }
+    }
+
+    // Initialize Product List on Page Load
+    window.onload = () => {
+        loadProducts();
+    };
+</script>
+
 </body>
 </html>
